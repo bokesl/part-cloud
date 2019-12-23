@@ -21,7 +21,7 @@ bin/elasticsearch -d
 
 kibana
 
-bin/kibana -d
+nohup bin/kibana &
 
 
 zipkin
