@@ -35,7 +35,9 @@ STORAGE_TYPE=elasticsearch ES_HOSTS=http://localhost:9200 java -jar zipkin-depen
 
 
 docker-compose -f docker-compose-build.yml build
+
 docker-compose -f docker-compose-up1.yml up
+
 docker-compose -f docker-compose-up2.yml up
 
 
