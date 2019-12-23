@@ -1,0 +1,25 @@
+server:
+  port: 8769
+zuul:
+  routes:
+    api-proaa:
+      path: /api-proaa/**
+      serviceId: service-proaa
+    api-probb:
+      path: /api-probb/**
+      serviceId: service-probb
+    api-conaa:
+      path: /api-conaa/**
+      serviceId: service-conaa
+    api-conbb:
+      path: /api-conbb/**
+      serviceId: service-conbb
+spring:
+  sleuth:
+    sampler:
+      probability: 1.0 # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
+  rabbitmq:
+    addresses: host.docker.internal
+    port: 5672
+    username: guest
+    password: guest

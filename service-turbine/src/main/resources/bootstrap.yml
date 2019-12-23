@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: service-turbine
+  cloud:
+    consul:
+      host: host.docker.internal
+      port: 8500
+      discovery:
+        serviceName: service-trubine
+        prefer-ip-address: true

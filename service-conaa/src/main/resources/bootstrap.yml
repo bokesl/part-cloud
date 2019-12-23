@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: service-conaa
+  cloud:
+    consul:
+      host: host.docker.internal
+      port: 8500
+      discovery:
+        serviceName: service-conaa
+        prefer-ip-address: true
+      config:
+        enabled: true
+        format: yaml
+        prefix: config
+        profile-separator: ':'
+        data-key: data
+

@@ -1,0 +1,16 @@
+server:
+  port: 8763
+spring:
+  profiles:
+    active: dev
+  sleuth:
+    sampler:
+      probability: 1.0 # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
+  rabbitmq:
+    addresses: host.docker.internal
+    port: 5672
+    username: guest
+    password: guest
+feign:
+  hystrix:
+    enabled: true

@@ -1,0 +1,29 @@
+version: '3.0'
+services:
+  service-proaa:
+    image: part/service-proaa
+    network_mode: "bridge"
+    restart: always
+    ports:
+     - 8761:8761
+
+  service-probb:
+    image: part/service-probb
+    network_mode: "bridge"
+    restart: always
+    ports:
+     - 8762:8762
+
+  service-conaa:
+    image: part/service-conaa
+    network_mode: "bridge"
+    restart: always
+    ports:
+     - 8763:8763
+
+  service-conbb:
+    image: part/service-conbb
+    network_mode: "bridge"
+    restart: always
+    ports:
+     - 8764:8764

@@ -1,0 +1,18 @@
+server:
+  port: 8768
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      cors:
+        allowed-origins: "*"
+        allowed-methods: "*"
+turbine:
+  app-config: service-conaa,service-conbb
+  aggregator:
+    clusterConfig: default
+  clusterNameExpression: new String("default")
+  combine-host: true
+  instanceUrlSuffix:
+    default: hystrix.stream

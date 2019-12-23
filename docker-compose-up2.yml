@@ -1,0 +1,15 @@
+version: '3.0'
+services:
+  service-turbine:
+    image: part/service-turbine
+    network_mode: "bridge"
+    restart: always
+    ports:
+     - 8768:8768
+
+  service-zull:
+    image: part/service-zull
+    network_mode: "bridge"
+    restart: always
+    ports:
+     - 8769:8769

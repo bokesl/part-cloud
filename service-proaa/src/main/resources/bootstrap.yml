@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: service-proaa
+  cloud:
+    consul:
+      host: host.docker.internal
+      port: 8500
+      discovery:
+        serviceName: service-proaa
+        prefer-ip-address: true
+      config:
+        enabled: true
+        format: yaml
+        prefix: config
+        profile-separator: ':'
+        data-key: data

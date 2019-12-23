@@ -1,0 +1,25 @@
+version: '3.0'
+services:
+  service-proaa:
+    image: part/service-proaa
+    build: service-proaa
+
+  service-probb:
+    image: part/service-probb
+    build: service-probb
+
+  service-conaa:
+    image: part/service-conaa
+    build: service-conaa
+
+  service-conbb:
+    image: part/service-conbb
+    build: service-conbb
+
+  service-turbine:
+    image: part/service-turbine
+    build: service-turbine
+
+  service-zull:
+    image: part/service-zull
+    build: service-zull
