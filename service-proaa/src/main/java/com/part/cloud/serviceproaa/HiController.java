@@ -14,6 +14,7 @@ public class HiController {
 
     @GetMapping("/hi")
     public String home(@RequestParam String name) {
+        System.out.println("hi "+name+",i am from port:" +port);
         return "hi "+name+",i am from port:" +port;
     }
 
