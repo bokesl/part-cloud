@@ -13,9 +13,4 @@ public class ServiceProaaApplication {
 		SpringApplication.run(ServiceProaaApplication.class, args);
 	}
 
-	@GetMapping("/actuator/health")
-	public String health(){
-		return "hello";
-	}
-
 }
