@@ -4,6 +4,9 @@ services:
     image: part/service-turbine
     network_mode: "bridge"
     restart: always
+    volumes:
+    - /Volumes/starfire/datareel/docker/time/localtime:/etc/localtime:ro
+    - /Volumes/starfire/datareel/docker/time/timezone:/etc/timezone:ro
     ports:
      - 8768:8768
 
@@ -11,5 +14,8 @@ services:
     image: part/service-zull
     network_mode: "bridge"
     restart: always
+    volumes:
+    - /Volumes/starfire/datareel/docker/time/localtime:/etc/localtime:ro
+    - /Volumes/starfire/datareel/docker/time/timezone:/etc/timezone:ro
     ports:
      - 8769:8769
