@@ -1,0 +1,166 @@
+version: '3.0'
+
+services:
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:management
+    volumes:
+    - /Volumes/starfire/datareel/rabbitmq/data:/var/lib/rabbitmq
+    ports:
+    - 15672:15672
+    - 5672:5672
+    networks:
+    - part_cloud_net
+
+  elasticsearch:
+    container_name: elasticsearch
+    image: elasticsearch:6.8.6
+    volumes:
+    - /Volumes/starfire/datareel/elasticsearch/data:/usr/share/elasticsearch/data
+    environment:
+    - discovery.type=single-node
+    ports:
+    - 9200:9200
+    - 9300:9300
+    networks:
+    - part_cloud_net
+
+  kibana:
+    container_name: kibana
+    image: kibana:6.8.6
+    restart: always
+    ports:
+    - 5601:5601
+    networks:
+    - part_cloud_net
+    depends_on:
+    - elasticsearch
+
+  zipkin:
+    container_name: zipkin
+    image: openzipkin/zipkin:netcat
+    restart: always
+    volumes:
+    - ./Resources/entrypoint.sh:/entrypoint.sh
+    environment:
+    - STORAGE_TYPE=elasticsearch
+    - ES_HOSTS=elasticsearch:9200
+    - RABBIT_ADDRESSES=rabbitmq:5672
+    - RABBIT_USER=guest
+    - RABBIT_PASSWORD=guest
+    - SLEEP_SECOND=5
+    ports:
+    - 9411:9411
+    entrypoint: "/entrypoint.sh -d rabbitmq:5672,elasticsearch:9200 -c 'java -jar /zipkin-server.jar'"
+    networks:
+    - part_cloud_net
+    depends_on:
+    - rabbitmq
+    - elasticsearch
+
+  consul:
+    container_name: consul
+    image: consul
+    volumes:
+    - /Volumes/starfire/datareel/consul:/consul/data
+    ports:
+    - 8500:8500
+    command: agent -server -ui -bootstrap-expect=1 -client=0.0.0.0
+    networks:
+    - part_cloud_net
+
+  service-proaa:
+    container_name: service-proaa
+    image: part/service-proaa:0.0.1-SNAPSHOT
+    volumes:
+    - ./Resources/wait-for-it.sh:/wait-for-it.sh
+    restart: always
+    ports:
+    - 8761:8761
+    entrypoint: "sh /wait-for-it.sh zipkin:9411 --timeout=0 -- java -jar /service-proaa-0.0.1-SNAPSHOT.jar"
+    networks:
+    - part_cloud_net
+    depends_on:
+    - consul
+    - zipkin
+
+  service-probb:
+    container_name: service-probb
+    image: part/service-probb:0.0.1-SNAPSHOT
+    volumes:
+    - ./Resources/wait-for-it.sh:/wait-for-it.sh
+    restart: always
+    ports:
+    - 8762:8762
+    entrypoint: "sh /wait-for-it.sh zipkin:9411 --timeout=0 -- java -jar /service-probb-0.0.1-SNAPSHOT.jar"
+    networks:
+    - part_cloud_net
+    depends_on:
+    - consul
+    - zipkin
+
+  service-conaa:
+    container_name: service-conaa
+    image: part/service-conaa:0.0.1-SNAPSHOT
+    volumes:
+    - ./Resources/wait-for-it.sh:/wait-for-it.sh
+    restart: always
+    ports:
+    - 8763:8763
+    entrypoint: "sh /wait-for-it.sh zipkin:9411 --timeout=0 -- java -jar /service-conaa-0.0.1-SNAPSHOT.jar"
+    networks:
+    - part_cloud_net
+    depends_on:
+    - consul
+    - zipkin
+
+  service-conbb:
+    container_name: service-conbb
+    image: part/service-conbb:0.0.1-SNAPSHOT
+    volumes:
+    - ./Resources/wait-for-it.sh:/wait-for-it.sh
+    restart: always
+    ports:
+    - 8764:8764
+    entrypoint: "sh /wait-for-it.sh zipkin:9411 --timeout=0 -- java -jar /service-conbb-0.0.1-SNAPSHOT.jar"
+    networks:
+    - part_cloud_net
+    depends_on:
+    - consul
+    - zipkin
+
+  service-turbine:
+    container_name: service-turbine
+    image: part/service-turbine:0.0.1-SNAPSHOT
+    restart: always
+    volumes:
+    - ./Resources/entrypoint.sh:/entrypoint.sh
+    ports:
+    - 8768:8768
+    entrypoint: "/entrypoint.sh -d service-conaa:8763,service-conbb:8764 -c 'java -jar /service-turbine-0.0.1-SNAPSHOT.jar'"
+    networks:
+    - part_cloud_net
+    depends_on:
+    - service-conaa
+    - service-conbb
+
+  service-zull:
+    container_name: service-zull
+    image: part/service-zull:0.0.1-SNAPSHOT
+    restart: always
+    volumes:
+    - ./Resources/entrypoint.sh:/entrypoint.sh
+    ports:
+    - 8769:8769
+    entrypoint: "/entrypoint.sh -d service-proaa:8761,service-probb:8762,service-conaa:8763,service-conbb:8764 -c 'java -jar /service-zull-0.0.1-SNAPSHOT.jar'"
+    networks:
+    - part_cloud_net
+    depends_on:
+    - service-proaa
+    - service-probb
+    - service-conaa
+    - service-conbb
+
+networks:
+  part_cloud_net:
+    external: true
