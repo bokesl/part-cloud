@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: midware
+  labels:
+    app: midware
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: midware
+  template:
+    metadata:
+      labels:
+        app: midware
+    spec:
+      containers:
+      - name: rabbitmq
+        image: rabbitmq:management
+      - name: elasticsearch
+        image: elasticsearch:6.8.6
+        env:
+        - name: discovery.type
+          value: single-node
+        volumeMounts:
+        - name: elasticsearch-volume
+          mountPath: /usr/share/elasticsearch/data
+      - name: zipkin
+        image: openzipkin/zipkin:netcat
+        env:
+        - name: STORAGE_TYPE
+          value: elasticsearch
+        - name: ES_HOSTS
+          value: midware:9200
+        - name: RABBIT_ADDRESSES
+          value: midware:5672
+        - name: RABBIT_USER
+          value: guest
+        - name: RABBIT_PASSWORD
+          value: guest
+      - name: kibana
+        image: kibana:6.8.6
+        env:
+        - name: ELASTICSEARCH_HOSTS
+          value: http://midware:9200
+      - name: consul
+        image: consul
+        args:
+        - "agent"
+        - "-server"
+        - "-ui"
+        - "-bootstrap-expect=1"
+        - "-client=0.0.0.0"
+        volumeMounts:
+        - name: consul-volume
+          mountPath: /consul/data
+
+      volumes:
+      - name: elasticsearch-volume
+        hostPath:
+          path: /Volumes/starfire/datareel/elasticsearch/data
+      - name: consul-volume
+        hostPath:
+          path: /Volumes/starfire/datareel/consul

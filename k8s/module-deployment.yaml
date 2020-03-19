@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: module
+  labels:
+    app: module
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: module
+  template:
+    metadata:
+      labels:
+        app: module
+    spec:
+      containers:
+      - name: service-proaa
+        image: part/service-proaa:k8s.v01
+        ports:
+        - containerPort: 8761
+      - name: service-probb
+        image: part/service-probb:k8s.v01
+        ports:
+        - containerPort: 8762
+      - name: service-conaa
+        image: part/service-conaa:k8s.v01
+        ports:
+        - containerPort: 8763
+      - name: service-conbb
+        image: part/service-conbb:k8s.v01
+        ports:
+        - containerPort: 8764
+      - name: service-turbine
+        image: part/service-turbine:k8s.v01
+        ports:
+        - containerPort: 8768
+      - name: service-zull
+        image: part/service-zull:k8s.v01
+        ports:
+        - containerPort: 8769

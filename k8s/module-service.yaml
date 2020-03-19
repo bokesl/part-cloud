@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: module
+  labels:
+    run: module
+spec:
+  selector:
+    app: module
+  ports:
+  - protocol: TCP
+    name: service-proaa
+    port: 8761
+    targetPort: 8761
+  - protocol: TCP
+    name: service-probb
+    port: 8762
+    targetPort: 8762
+  - protocol: TCP
+    name: service-conaa
+    port: 8763
+    targetPort: 8763
+  - protocol: TCP
+    name: service-conbb
+    port: 8764
+    targetPort: 8764
+  - protocol: TCP
+    name: service-turbine
+    port: 8768
+    targetPort: 8768
+  - protocol: TCP
+    name: service-zull
+    port: 8769
+    targetPort: 8769
+  type: LoadBalancer

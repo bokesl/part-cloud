@@ -3,7 +3,7 @@ spring:
     name: service-zull
   cloud:
     consul:
-      host: host.docker.internal
+      host: midware
       port: 8500
       discovery:
         serviceName: service-zull

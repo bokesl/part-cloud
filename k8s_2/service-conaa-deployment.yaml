@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-conaa
+  labels:
+    app: service-conaa
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: service-conaa
+  template:
+    metadata:
+      labels:
+        app: service-conaa
+    spec:
+      containers:
+      - name: service-conaa
+        image: part/service-conaa:0.0.1-SNAPSHOT

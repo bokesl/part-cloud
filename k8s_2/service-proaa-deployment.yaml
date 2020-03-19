@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-proaa
+  labels:
+    app: service-proaa
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: service-proaa
+  template:
+    metadata:
+      labels:
+        app: service-proaa
+    spec:
+      containers:
+      - name: service-proaa
+        image: part/service-proaa:0.0.1-SNAPSHOT

@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-turbine
+  labels:
+    app: service-turbine
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: service-turbine
+  template:
+    metadata:
+      labels:
+        app: service-turbine
+    spec:
+      containers:
+      - name: service-turbine
+        image: part/service-turbine:0.0.1-SNAPSHOT

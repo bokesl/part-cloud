@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-zull
+  labels:
+    run: service-zull
+spec:
+  selector:
+    app: service-zull
+  ports:
+  - protocol: TCP
+    port: 8769
+    targetPort: 8769
+  type: LoadBalancer

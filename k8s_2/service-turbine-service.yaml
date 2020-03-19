@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-turbine
+  labels:
+    run: service-turbine
+spec:
+  selector:
+    app: service-turbine
+  ports:
+  - protocol: TCP
+    port: 8768
+    targetPort: 8768
+  type: LoadBalancer

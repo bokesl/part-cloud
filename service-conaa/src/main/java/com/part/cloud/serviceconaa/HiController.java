@@ -1,6 +1,7 @@
 package com.part.cloud.serviceconaa;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
@@ -15,6 +16,7 @@ public class HiController {
 
     @GetMapping("/hi")
     public String sayHi(@RequestParam( defaultValue = "forezp",required = false)String name){
+        System.out.println("hi "+name);
         return conaaFeign.sayHi(name);
     }
 

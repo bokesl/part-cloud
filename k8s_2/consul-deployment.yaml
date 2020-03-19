@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consul
+  labels:
+    app: consul
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: consul
+  template:
+    metadata:
+      labels:
+        app: consul
+    spec:
+      containers:
+      - name: consul
+        image: consul
+        args:
+        - "agent"
+        - "-server"
+        - "-ui"
+        - "-bootstrap-expect=1"
+        - "-client=0.0.0.0"
+        volumeMounts:
+        - name: consul-volume
+          mountPath: /consul/data
+      volumes:
+      - name: consul-volume
+        hostPath:
+          path: /Volumes/starfire/datareel/consul

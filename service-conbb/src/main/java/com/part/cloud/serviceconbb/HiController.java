@@ -16,6 +16,7 @@ public class HiController {
 
     @GetMapping("/hi")
     public String sayHi(@RequestParam( defaultValue = "forezp",required = false)String name){
+        System.out.println("hi "+name);
         return conbbFeign.sayHi(name);
     }
 

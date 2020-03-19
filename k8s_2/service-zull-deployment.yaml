@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-zull
+  labels:
+    app: service-zull
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: service-zull
+  template:
+    metadata:
+      labels:
+        app: service-zull
+    spec:
+      containers:
+      - name: service-zull
+        image: part/service-zull:0.0.1-SNAPSHOT

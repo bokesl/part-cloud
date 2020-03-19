@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-conaa
+  labels:
+    run: service-conaa
+spec:
+  selector:
+    app: service-conaa
+  ports:
+  - protocol: TCP
+    port: 8763
+    targetPort: 8763
+  type: LoadBalancer

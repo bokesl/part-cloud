@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-probb
+  labels:
+    app: service-probb
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: service-probb
+  template:
+    metadata:
+      labels:
+        app: service-probb
+    spec:
+      containers:
+      - name: service-probb
+        image: part/service-probb:0.0.1-SNAPSHOT

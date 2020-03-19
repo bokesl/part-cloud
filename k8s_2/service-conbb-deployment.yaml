@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-conbb
+  labels:
+    app: service-conbb
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: service-conbb
+  template:
+    metadata:
+      labels:
+        app: service-conbb
+    spec:
+      containers:
+      - name: service-conbb
+        image: part/service-conbb:0.0.1-SNAPSHOT
