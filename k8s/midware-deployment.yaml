@@ -17,6 +17,10 @@ spec:
       containers:
       - name: rabbitmq
         image: rabbitmq:management
+        volumeMounts:
+        - name: rabbitmq-volume
+          mountPath: /var/lib/rabbitmq
+
       - name: elasticsearch
         image: elasticsearch:6.8.6
         env:
@@ -25,6 +29,7 @@ spec:
         volumeMounts:
         - name: elasticsearch-volume
           mountPath: /usr/share/elasticsearch/data
+
       - name: zipkin
         image: openzipkin/zipkin:netcat
         env:
@@ -38,11 +43,13 @@ spec:
           value: guest
         - name: RABBIT_PASSWORD
           value: guest
+
       - name: kibana
         image: kibana:6.8.6
         env:
         - name: ELASTICSEARCH_HOSTS
           value: http://midware:9200
+
       - name: consul
         image: consul
         args:
@@ -56,6 +63,9 @@ spec:
           mountPath: /consul/data
 
       volumes:
+      - name: rabbitmq-volume
+        hostPath:
+          path: /Volumes/starfire/datareel/rabbitmq/data
       - name: elasticsearch-volume
         hostPath:
           path: /Volumes/starfire/datareel/elasticsearch/data
